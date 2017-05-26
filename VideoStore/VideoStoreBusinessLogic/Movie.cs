@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VideoStoreBusinessLogic
 {
-    public class Class1
+    public class Movie
     {
     }
 }
