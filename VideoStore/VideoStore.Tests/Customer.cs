@@ -1,8 +1,11 @@
-﻿namespace VideoStore.Tests
+﻿using System.Collections.Generic;
+
+namespace VideoStore.Tests
 {
-    internal class Customer
+    public class Customer
     {
-        internal string Name;
-        internal string SSN;
+        public string Name { get; set; }
+        public string SSN { get; set; }
+        public List<Rental> Rentals { get; set; }
     }
 }

@@ -95,27 +95,45 @@ namespace VideoStore.Tests
         [Test]
         public void BeingAbleToAddRental()
         {
-            //Movie m = new Movie();
-            //m.Title = "Star wars";
-            //sutCustomer.Name = "Tess";
-            //sutCustomer.SSN = "123";
+            Movie m = new Movie();
+            m.Title = "Star wars";
+            sutCustomer.Name = "Tess";
+            sutCustomer.SSN = "123";
 
-            //sutRental.AddRental(sutMovie.Title, sutCustomer.SSN);
+            sutRental.AddRental(sutMovie.Title, sutCustomer.SSN);
 
-            //Movie retrieved = sutVideoStore.ReturnMovie(sutMovie.Title, sutCustomer.SSN);
+            Movie retrieved = sutVideoStore.ReturnMovie(sutMovie.Title, sutCustomer.SSN);
 
-            //Assert.AreEqual("Star wars", retrieved.Title);
+            Assert.AreEqual("Star wars", retrieved.Title);
         }
         [Test]
         public void AllRentalsGetA3DayLaterDueDate()
         {
+            Rental r =new  Rental();
+            r.MovieTitle = "Die HArd";
+            r.ReturnDate = DateTime.Now.AddDays(3);
+            sutCustomer.SSN = "123";
+
+            sutRental.AddRental(r.MovieTitle, sutCustomer.SSN);
+
+            Assert.AreEqual(DateTime.Now.AddDays(3).Date,r.ReturnDate.Date);
+
 
         }
         [Test]
-        public void ShouldBeAbleToGetRentalsBySSID()
+        public void ShouldBeAbleToGetRentalsBySSN()
         {
+            Customer c = new Customer();
+            c.Name = "Ivan";
+            c.SSN = "123";
+            c.Rentals.Add(new Rental() { MovieTitle = "Die hard", ReturnDate = DateTime.Now.AddDays(3)});
+            c.Rentals.Add(new Rental() { MovieTitle = "Titanic", ReturnDate = DateTime.Now.AddDays(3)});
 
+            List<Rental> listOfRentals = sutRental.GetRentals("123");
+            Assert.AreEqual(2,c.Rentals.Count);
+            StringAssert.Contains("Die hard",c.Rentals[0].MovieTitle);
         }
+
         [Test]
         public void CanRentMoreThanOneMovie()
         {

@@ -6,24 +6,29 @@ using System.Threading.Tasks;
 
 namespace VideoStore.Tests
 {
-    class VideoStore
+    public class VideoStore
     {
-        internal void AddMovie(Movie sutMovie)
+        public void AddMovie(Movie sutMovie)
         {
             throw new NotImplementedException();
         }
 
-        internal static void RegisterCustomer(string name, string sSN)
+        public static void RegisterCustomer(string name, string sSN)
         {
             throw new NotImplementedException();
         }
 
-        internal void RentMovie(Movie sutMovie)
+        public void RentMovie(Movie sutMovie)
         {
             throw new NotImplementedException();
         }
 
-        internal void RentMovie(string title, string sSN)
+        public void RentMovie(string title, string sSN)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Movie ReturnMovie(string sutMovieTitle, string sutCustomerSsn)
         {
             throw new NotImplementedException();
         }

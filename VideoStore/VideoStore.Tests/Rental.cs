@@ -1,10 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace VideoStore.Tests
 {
-    internal class Rental
+    public class Rental
     {
-        internal void AddRental(string title, string sSN)
+        public void AddRental(string title, string ssn)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime ReturnDate { get; set; }
+        public string MovieTitle { get; set; }
+
+        public List<Rental> GetRentals(string ssn)
         {
             throw new NotImplementedException();
         }
