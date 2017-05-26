@@ -142,7 +142,25 @@ namespace VideoStore.Tests
         [Test]
         public void CannotRentMoreThan3Movies()
         {
+            Rental r = new Rental();
+            r.MovieTitle = "Die HArd";
+            r.ReturnDate = DateTime.Now.AddDays(3);
+            Rental r1 = new Rental();
+            r.MovieTitle = "Titanic";
+            r.ReturnDate = DateTime.Now.AddDays(3);
+            Rental r2 = new Rental();
+            r.MovieTitle = "Dirty Dancing";
+            r.ReturnDate = DateTime.Now.AddDays(3);
+            Rental r3 = new Rental();
+            r.MovieTitle = "Star Wars";
+            r.ReturnDate = DateTime.Now.AddDays(3);
+            sutCustomer.SSN = "123";
+            sutRental.AddRental(r.MovieTitle, sutCustomer.SSN);
+            sutRental.AddRental(r1.MovieTitle, sutCustomer.SSN);
+            sutRental.AddRental(r2.MovieTitle, sutCustomer.SSN);
 
+            Assert.Throws<MaximumThreeMoviesToRentalException>(() =>
+                sutRental.AddRental(r3.MovieTitle, sutCustomer.SSN));
         }
         [Test]
         public void CustomersMayNotPossessTwoCopiesOfTheSameMovie()

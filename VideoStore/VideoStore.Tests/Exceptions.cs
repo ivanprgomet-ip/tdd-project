@@ -33,4 +33,9 @@ namespace VideoStore.Tests
 
     }
 
+    public class MaximumThreeMoviesToRentalException : Exception
+    {
+        
+    }
+
 }
