@@ -10,5 +10,15 @@ namespace VideoStore.Tests
     [TestFixture]
     public class VideoStoreTests
     {
+        [SetUp]
+        public void Setup()
+        {
+            
+        }
+        [Test]
+        public void MovieTitleCanNotBeEmpty()
+        {
+            
+        }
     }
 }
