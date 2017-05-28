@@ -81,7 +81,7 @@ namespace VideoStore.Tests
     [TestFixture]
     public class RentalTests
     {
-        private Video sutMovie { get; set; }
+        private Video sutVideo { get; set; }
         private VideoStore sutVideoStore { get; set; }
         private Customer sutCustomer { get; set; }
         private Rental sutRental { get; set; }
@@ -100,9 +100,9 @@ namespace VideoStore.Tests
             sutCustomer.Name = "Tess";
             sutCustomer.SSN = "123";
 
-            sutRental.AddRental(sutMovie.Title, sutCustomer.SSN);
+            sutRental.AddRental(sutVideo.Title, sutCustomer.SSN);
 
-            Video retrieved = sutVideoStore.ReturnMovie(sutMovie.Title, sutCustomer.SSN);
+            Video retrieved = sutVideoStore.ReturnMovie(sutVideo.Title, sutCustomer.SSN);
 
             Assert.AreEqual("Star wars", retrieved.Title);
         }
@@ -171,12 +171,22 @@ namespace VideoStore.Tests
         [Test]
         public void CustomersMayNotPossessTwoCopiesOfTheSameMovie()
         {
+            Video v1 = new Video() { Title = "die hard" };
+            Customer c1 = new Customer() { Name = "ivan", SSN = "123", Rentals = new List<Rental>() };
 
+
+            sutRental.AddRental(v1.Title,c1.SSN);
+
+            Assert.Throws<CantPossessTwoCopiesOfSameVideoException>(()
+                => sutRental.AddRental(v1.Title, c1.SSN));
+
+            Assert.AreEqual(1, c1.Rentals.Count);
         }
         [Test]
         public void CustomersMayNotRentAnymoreMoviesIfTheyHaveLateDueDateMovies()
         {
-            //Assert.Throws<Exceptionx>(() => sut.DoStuff());
+
+            
         }
 
         // more tests here

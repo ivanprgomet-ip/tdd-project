@@ -18,6 +18,10 @@ namespace VideoStore.Tests
     {
 
     }
+    public class CantPossessTwoCopiesOfSameVideoException : Exception
+    {
+
+    }
     public class SSNFormatException : Exception
     {
 
