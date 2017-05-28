@@ -10,33 +10,33 @@ namespace VideoStore.Tests
     [TestFixture]
     public class VideoStoreTests
     {
-            private Movie sutMovie { get; set; }
+            private Video sutVideo { get; set; }
             private VideoStore sutVideoStore { get; set; }
             private Customer sutCustomer { get; set; }
         
         [SetUp]
         public void Setup()
         {
-            sutMovie = new Movie();
+            sutVideo = new Video();
             sutVideoStore = new VideoStore();
         }
         [Test]
         public void MovieTitleCanNotBeEmpty()
         {
-            sutMovie.Title = "";
+            sutVideo.Title = "";
 
             Assert.Throws<MovieTitleCannotBeEmptyException>(() =>
-            sutVideoStore.AddMovie(sutMovie));
+            sutVideoStore.AddMovie(sutVideo));
         }
         [Test]
         public void AddingFourthCopyOfSameMovieNotPossible()
         {
-            sutVideoStore.AddMovie(sutMovie);
-            sutVideoStore.AddMovie(sutMovie);
-            sutVideoStore.AddMovie(sutMovie);
+            sutVideoStore.AddMovie(sutVideo);
+            sutVideoStore.AddMovie(sutVideo);
+            sutVideoStore.AddMovie(sutVideo);
 
             Assert.Throws<MaximumThreeMoviesException>(() =>
-            sutVideoStore.AddMovie(sutMovie));
+            sutVideoStore.AddMovie(sutVideo));
         }
         [Test]
         public void ShouldNotBeAbleToAddSameCustomerTwice()
@@ -61,19 +61,19 @@ namespace VideoStore.Tests
         [Test]
         public void NotBeAbleToRentNonExistentMovie()
         {
-            sutMovie.Title = "Die Hard";
+            sutVideo.Title = "Die Hard";
             Assert.Throws<MovieDoesntExistException>(()
-                => sutVideoStore.RentMovie(sutMovie));
+                => sutVideoStore.RentMovie(sutVideo));
 
         }
         [Test]
         public void UnregisteredCustomerCannotRentMovie()
         {
-            sutMovie.Title = "Dirty dancing";
+            sutVideo.Title = "Dirty dancing";
             sutCustomer.SSN = "843";
 
             var e = Assert.Throws<CustomerNotRegisteredException>(()
-                => sutVideoStore.RentMovie(sutMovie.Title, sutCustomer.SSN));
+                => sutVideoStore.RentMovie(sutVideo.Title, sutCustomer.SSN));
 
             StringAssert.Contains("The customer is not registered", e.Message);
         }
@@ -81,7 +81,7 @@ namespace VideoStore.Tests
     [TestFixture]
     public class RentalTests
     {
-        private Movie sutMovie { get; set; }
+        private Video sutMovie { get; set; }
         private VideoStore sutVideoStore { get; set; }
         private Customer sutCustomer { get; set; }
         private Rental sutRental { get; set; }
@@ -95,14 +95,14 @@ namespace VideoStore.Tests
         [Test]
         public void BeingAbleToAddRental()
         {
-            Movie m = new Movie();
+            Video m = new Video();
             m.Title = "Star wars";
             sutCustomer.Name = "Tess";
             sutCustomer.SSN = "123";
 
             sutRental.AddRental(sutMovie.Title, sutCustomer.SSN);
 
-            Movie retrieved = sutVideoStore.ReturnMovie(sutMovie.Title, sutCustomer.SSN);
+            Video retrieved = sutVideoStore.ReturnMovie(sutMovie.Title, sutCustomer.SSN);
 
             Assert.AreEqual("Star wars", retrieved.Title);
         }
@@ -137,7 +137,13 @@ namespace VideoStore.Tests
         [Test]
         public void CanRentMoreThanOneMovie()
         {
+            Video v1 = new Video() { Title = "dirty dancing" };
+            Video v2 = new Video() { Title = "titanic" };
+            Customer c1 = new Customer() { Name = "ivan", SSN = "123", Rentals = new List<Rental>()};
 
+            sutRental.AddRental(v1.Title, c1.SSN);
+
+            Assert.AreEqual(2, c1.Rentals.Count);
         }
         [Test]
         public void CannotRentMoreThan3Movies()

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VideoStore.Tests
 {
-    public interface IRentals
+    public interface IRental
     {
         void AddRental(string movieTitle, string socialSecurityNumber);
         void RemoveRental(string movieTitle, string socialSecurityNumber);
@@ -17,7 +17,7 @@ namespace VideoStore.Tests
     public interface IVideoStore
     {
         void RegisterCustomer(string name, string socialSecurityNumber);
-        void AddMovie(Movie movie);
+        void AddMovie(Video movie);
         void RentMovie(string movieTitle, string socialSecurityNumber);
         List<Customer> GetCustomers();
         void ReturnMovie(string movieTitle, string socialSecurityNumber);

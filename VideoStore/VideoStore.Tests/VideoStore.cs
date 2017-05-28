@@ -8,7 +8,7 @@ namespace VideoStore.Tests
 {
     public class VideoStore
     {
-        public void AddMovie(Movie sutMovie)
+        public void AddMovie(Video sutMovie)
         {
             throw new NotImplementedException();
         }
@@ -18,7 +18,7 @@ namespace VideoStore.Tests
             throw new NotImplementedException();
         }
 
-        public void RentMovie(Movie sutMovie)
+        public void RentMovie(Video sutMovie)
         {
             throw new NotImplementedException();
         }
@@ -28,7 +28,7 @@ namespace VideoStore.Tests
             throw new NotImplementedException();
         }
 
-        public Movie ReturnMovie(string sutMovieTitle, string sutCustomerSsn)
+        public Video ReturnMovie(string sutMovieTitle, string sutCustomerSsn)
         {
             throw new NotImplementedException();
         }
