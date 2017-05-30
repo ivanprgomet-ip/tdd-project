@@ -4,21 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using NSubstitute;
 
 namespace VideoStore.Tests
 {
     [TestFixture]
     public class VideoStoreTests
     {
-            private Video sutVideo { get; set; }
-            private VideoStore sutVideoStore { get; set; }
-            private Customer sutCustomer { get; set; }
-        
+        private IVideoStore videoStoreStub { get; set; }
+        private Video sutVideo { get; set; }
+        private Customer sutCustomer { get; set; }
+
+
         [SetUp]
         public void Setup()
         {
+            videoStoreStub = Substitute.For<IVideoStore>();
             sutVideo = new Video();
-            sutVideoStore = new VideoStore();
+            sutCustomer = new Customer() { Name = "Tess", SSN = "123", Rentals = new List<Rental>() };
         }
         [Test]
         public void MovieTitleCanNotBeEmpty()
@@ -26,17 +29,17 @@ namespace VideoStore.Tests
             sutVideo.Title = "";
 
             Assert.Throws<MovieTitleCannotBeEmptyException>(() =>
-            sutVideoStore.AddMovie(sutVideo));
+            videoStoreStub.AddMovie(sutVideo));
         }
         [Test]
         public void AddingFourthCopyOfSameMovieNotPossible()
         {
-            sutVideoStore.AddMovie(sutVideo);
-            sutVideoStore.AddMovie(sutVideo);
-            sutVideoStore.AddMovie(sutVideo);
+            videoStoreStub.AddMovie(sutVideo);
+            videoStoreStub.AddMovie(sutVideo);
+            videoStoreStub.AddMovie(sutVideo);
 
             Assert.Throws<MaximumThreeMoviesException>(() =>
-            sutVideoStore.AddMovie(sutVideo));
+            videoStoreStub.AddMovie(sutVideo));
         }
         [Test]
         public void ShouldNotBeAbleToAddSameCustomerTwice()
@@ -54,7 +57,7 @@ namespace VideoStore.Tests
         {
             sutCustomer.Name = "Ivan";
             sutCustomer.SSN = "1234-2-2";
-           
+
             Assert.Throws<SSNFormatException>(() => VideoStore.RegisterCustomer(sutCustomer.Name, sutCustomer.SSN));
         }
 
@@ -63,7 +66,7 @@ namespace VideoStore.Tests
         {
             sutVideo.Title = "Die Hard";
             Assert.Throws<MovieDoesntExistException>(()
-                => sutVideoStore.RentMovie(sutVideo));
+                => videoStoreStub.RentMovie("non existent movie title","123"));
 
         }
         [Test]
@@ -73,7 +76,7 @@ namespace VideoStore.Tests
             sutCustomer.SSN = "843";
 
             var e = Assert.Throws<CustomerNotRegisteredException>(()
-                => sutVideoStore.RentMovie(sutVideo.Title, sutCustomer.SSN));
+                => videoStoreStub.RentMovie(sutVideo.Title, sutCustomer.SSN));
 
             StringAssert.Contains("The customer is not registered", e.Message);
         }
@@ -81,16 +84,18 @@ namespace VideoStore.Tests
     [TestFixture]
     public class RentalTests
     {
+        private IVideoStore videoStoreStub { get; set; }
+        private IRental rentalStub { get; set; }
         private Video sutVideo { get; set; }
-        private VideoStore sutVideoStore { get; set; }
         private Customer sutCustomer { get; set; }
-        private Rental sutRental { get; set; }
 
         [SetUp]
         public void Setup()
         {
-            sutRental = new Rental();
 
+            videoStoreStub = Substitute.For<IVideoStore>();
+            rentalStub = Substitute.For<IRental>();
+            sutCustomer = new Customer() { Name = "Tess", SSN = "123", Rentals = new List<Rental>() };
         }
         [Test]
         public void BeingAbleToAddRental()
@@ -100,23 +105,23 @@ namespace VideoStore.Tests
             sutCustomer.Name = "Tess";
             sutCustomer.SSN = "123";
 
-            sutRental.AddRental(sutVideo.Title, sutCustomer.SSN);
+            rentalStub.AddRental(sutVideo.Title, sutCustomer.SSN);
 
-            Video retrieved = sutVideoStore.ReturnMovie(sutVideo.Title, sutCustomer.SSN);
+            List<Rental> rents = rentalStub.GetRentalsFor(sutCustomer.SSN);
 
-            Assert.AreEqual("Star wars", retrieved.Title);
+            Assert.AreEqual(1, rents.Count);
         }
         [Test]
         public void AllRentalsGetA3DayLaterDueDate()
         {
-            Rental r =new  Rental();
+            Rental r = new Rental();
             r.MovieTitle = "Die HArd";
             r.ReturnDate = DateTime.Now.AddDays(3);
             sutCustomer.SSN = "123";
 
-            sutRental.AddRental(r.MovieTitle, sutCustomer.SSN);
+            rentalStub.AddRental(r.MovieTitle, sutCustomer.SSN);
 
-            Assert.AreEqual(DateTime.Now.AddDays(3).Date,r.ReturnDate.Date);
+            Assert.AreEqual(DateTime.Now.AddDays(3).Date, r.ReturnDate.Date);
 
 
         }
@@ -126,12 +131,20 @@ namespace VideoStore.Tests
             Customer c = new Customer();
             c.Name = "Ivan";
             c.SSN = "123";
-            c.Rentals.Add(new Rental() { MovieTitle = "Die hard", ReturnDate = DateTime.Now.AddDays(3)});
-            c.Rentals.Add(new Rental() { MovieTitle = "Titanic", ReturnDate = DateTime.Now.AddDays(3)});
+            c.Rentals.Add(new Rental() { MovieTitle = "Die hard", ReturnDate = DateTime.Now.AddDays(3) });
+            c.Rentals.Add(new Rental() { MovieTitle = "Titanic", ReturnDate = DateTime.Now.AddDays(3) });
 
-            List<Rental> listOfRentals = sutRental.GetRentals("123");
-            Assert.AreEqual(2,c.Rentals.Count);
-            StringAssert.Contains("Die hard",c.Rentals[0].MovieTitle);
+
+            rentalStub.GetRentalsFor("123").Returns(new List<Rental>()
+            {
+                new Rental { MovieTitle = "Die hard", ReturnDate = DateTime.Now.AddDays(3) },
+                new Rental { MovieTitle = "Titanic", ReturnDate = DateTime.Now.AddDays(3) },
+            });
+
+
+            //List<Rental> listOfRentals = rentalStub.GetRentals("123");
+            //Assert.AreEqual(2, c.Rentals.Count);
+            //StringAssert.Contains("Die hard", c.Rentals[0].MovieTitle);
         }
 
         [Test]
@@ -139,9 +152,9 @@ namespace VideoStore.Tests
         {
             Video v1 = new Video() { Title = "dirty dancing" };
             Video v2 = new Video() { Title = "titanic" };
-            Customer c1 = new Customer() { Name = "ivan", SSN = "123", Rentals = new List<Rental>()};
+            Customer c1 = new Customer() { Name = "ivan", SSN = "123", Rentals = new List<Rental>() };
 
-            sutRental.AddRental(v1.Title, c1.SSN);
+            rentalStub.AddRental(v1.Title, c1.SSN);
 
             Assert.AreEqual(2, c1.Rentals.Count);
         }
@@ -161,12 +174,12 @@ namespace VideoStore.Tests
             r.MovieTitle = "Star Wars";
             r.ReturnDate = DateTime.Now.AddDays(3);
             sutCustomer.SSN = "123";
-            sutRental.AddRental(r.MovieTitle, sutCustomer.SSN);
-            sutRental.AddRental(r1.MovieTitle, sutCustomer.SSN);
-            sutRental.AddRental(r2.MovieTitle, sutCustomer.SSN);
+            rentalStub.AddRental(r.MovieTitle, sutCustomer.SSN);
+            rentalStub.AddRental(r1.MovieTitle, sutCustomer.SSN);
+            rentalStub.AddRental(r2.MovieTitle, sutCustomer.SSN);
 
             Assert.Throws<MaximumThreeMoviesToRentalException>(() =>
-                sutRental.AddRental(r3.MovieTitle, sutCustomer.SSN));
+                rentalStub.AddRental(r3.MovieTitle, sutCustomer.SSN));
         }
         [Test]
         public void CustomersMayNotPossessTwoCopiesOfTheSameMovie()
@@ -175,18 +188,18 @@ namespace VideoStore.Tests
             Customer c1 = new Customer() { Name = "ivan", SSN = "123", Rentals = new List<Rental>() };
 
 
-            sutRental.AddRental(v1.Title,c1.SSN);
+            rentalStub.AddRental(v1.Title, c1.SSN);
 
             Assert.Throws<CantPossessTwoCopiesOfSameVideoException>(()
-                => sutRental.AddRental(v1.Title, c1.SSN));
+                => rentalStub.AddRental(v1.Title, c1.SSN));
 
             Assert.AreEqual(1, c1.Rentals.Count);
         }
         [Test]
         public void CustomersMayNotRentAnymoreMoviesIfTheyHaveLateDueDateMovies()
         {
-
             
+
         }
 
         // more tests here
