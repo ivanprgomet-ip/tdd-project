@@ -8,12 +8,18 @@ namespace VideoStore.Gui
 {
     public class VideoStore
     {
+        private IRentals rentals;
+
+        public VideoStore(IRentals rentals)
+        {
+            this.rentals = rentals;
+        }
         public void AddMovie(Video sutMovie)
         {
             throw new NotImplementedException();
         }
 
-        public static void RegisterCustomer(string name, string sSN)
+        public void RegisterCustomer(string name, string ssn)
         {
             throw new NotImplementedException();
         }

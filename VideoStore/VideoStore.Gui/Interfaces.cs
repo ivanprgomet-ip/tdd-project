@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace VideoStore.Gui
 {
-    public interface IRental
+    public interface IRentals
     {
         void AddRental(string movieTitle, string socialSecurityNumber);
         void RemoveRental(string movieTitle, string socialSecurityNumber);
-        List<Rental> GetRentalsFor(string socialSecurityNumber);
+        List<Rentals> GetRentalsFor(string socialSecurityNumber);
 
     }
 

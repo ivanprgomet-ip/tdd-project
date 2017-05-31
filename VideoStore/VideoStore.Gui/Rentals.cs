@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace VideoStore.Gui
 {
-    public class Rental
+    public class Rentals
     {
         public void AddRental(string title, string ssn)
         {
@@ -13,7 +13,7 @@ namespace VideoStore.Gui
         public DateTime ReturnDate { get; set; }
         public string MovieTitle { get; set; }
 
-        public List<Rental> GetRentals(string ssn)
+        public List<Rentals> GetRentalsFor(string ssn)
         {
             throw new NotImplementedException();
         }

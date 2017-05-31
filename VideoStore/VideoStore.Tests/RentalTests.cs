@@ -12,42 +12,40 @@ namespace VideoStore.Tests
     [TestFixture]
     public class RentalTests
     {
-        private IVideoStore videoStoreStub { get; set; }
-        private IRental rentalStub { get; set; }
-        private Video sutVideo { get; set; }
-        private Customer sutCustomer { get; set; }
+        //Behöver inte ha Video och Customer här.
+        private Rentals sut { get; set; }
+        private Video testVideo { get; set; }
+        private Customer testCustomer { get; set; }
 
         [SetUp]
         public void Setup()
         {
-
-            videoStoreStub = Substitute.For<IVideoStore>();
-            rentalStub = Substitute.For<IRental>();
-            sutCustomer = new Customer() { Name = "Tess", SSN = "123", Rentals = new List<Rental>() };
+            sut = new Rentals();
+            testCustomer = new Customer() { Name = "Tess", SSN = "123", Rentals = new List<Rentals>() };
         }
         [Test]
         public void BeingAbleToAddRental()
         {
             Video m = new Video();
             m.Title = "Star wars";
-            sutCustomer.Name = "Tess";
-            sutCustomer.SSN = "123";
+            testCustomer.Name = "Tess";
+            testCustomer.SSN = "123";
 
-            rentalStub.AddRental(sutVideo.Title, sutCustomer.SSN);
+            sut.AddRental(testVideo.Title, testCustomer.SSN);
 
-            List<Rental> rents = rentalStub.GetRentalsFor(sutCustomer.SSN);
+            List<Rentals> rents = sut.GetRentalsFor(testCustomer.SSN);
 
             Assert.AreEqual(1, rents.Count);
         }
         [Test]
         public void AllRentalsGetA3DayLaterDueDate()
         {
-            Rental r = new Rental();
+            Rentals r = new Rentals();
             r.MovieTitle = "Die HArd";
             r.ReturnDate = DateTime.Now.AddDays(3);
-            sutCustomer.SSN = "123";
+            testCustomer.SSN = "123";
 
-            rentalStub.AddRental(r.MovieTitle, sutCustomer.SSN);
+            sut.AddRental(r.MovieTitle, testCustomer.SSN);
 
             Assert.AreEqual(DateTime.Now.AddDays(3).Date, r.ReturnDate.Date);
 
@@ -59,15 +57,11 @@ namespace VideoStore.Tests
             Customer c = new Customer();
             c.Name = "Ivan";
             c.SSN = "123";
-            c.Rentals.Add(new Rental() { MovieTitle = "Die hard", ReturnDate = DateTime.Now.AddDays(3) });
-            c.Rentals.Add(new Rental() { MovieTitle = "Titanic", ReturnDate = DateTime.Now.AddDays(3) });
+            c.Rentals.Add(new Rentals() { MovieTitle = "Die hard", ReturnDate = DateTime.Now.AddDays(3) });
+            c.Rentals.Add(new Rentals() { MovieTitle = "Titanic", ReturnDate = DateTime.Now.AddDays(3) });
 
 
-            rentalStub.GetRentalsFor("123").Returns(new List<Rental>()
-            {
-                new Rental { MovieTitle = "Die hard", ReturnDate = DateTime.Now.AddDays(3) },
-                new Rental { MovieTitle = "Titanic", ReturnDate = DateTime.Now.AddDays(3) },
-            });
+            var result=sut.GetRentalsFor("123");
 
 
             //List<Rental> listOfRentals = rentalStub.GetRentals("123");
@@ -80,46 +74,46 @@ namespace VideoStore.Tests
         {
             Video v1 = new Video() { Title = "dirty dancing" };
             Video v2 = new Video() { Title = "titanic" };
-            Customer c1 = new Customer() { Name = "ivan", SSN = "123", Rentals = new List<Rental>() };
+            Customer c1 = new Customer() { Name = "ivan", SSN = "123", Rentals = new List<Rentals>() };
 
-            rentalStub.AddRental(v1.Title, c1.SSN);
+            sut.AddRental(v1.Title, c1.SSN);
 
             Assert.AreEqual(2, c1.Rentals.Count);
         }
         [Test]
         public void CannotRentMoreThan3Movies()
         {
-            Rental r = new Rental();
+            Rentals r = new Rentals();
             r.MovieTitle = "Die HArd";
             r.ReturnDate = DateTime.Now.AddDays(3);
-            Rental r1 = new Rental();
+            Rentals r1 = new Rentals();
             r.MovieTitle = "Titanic";
             r.ReturnDate = DateTime.Now.AddDays(3);
-            Rental r2 = new Rental();
+            Rentals r2 = new Rentals();
             r.MovieTitle = "Dirty Dancing";
             r.ReturnDate = DateTime.Now.AddDays(3);
-            Rental r3 = new Rental();
+            Rentals r3 = new Rentals();
             r.MovieTitle = "Star Wars";
             r.ReturnDate = DateTime.Now.AddDays(3);
-            sutCustomer.SSN = "123";
-            rentalStub.AddRental(r.MovieTitle, sutCustomer.SSN);
-            rentalStub.AddRental(r1.MovieTitle, sutCustomer.SSN);
-            rentalStub.AddRental(r2.MovieTitle, sutCustomer.SSN);
+            testCustomer.SSN = "123";
+            sut.AddRental(r.MovieTitle, testCustomer.SSN);
+            sut.AddRental(r1.MovieTitle, testCustomer.SSN);
+            sut.AddRental(r2.MovieTitle, testCustomer.SSN);
 
             Assert.Throws<MaximumThreeMoviesToRentalException>(() =>
-                rentalStub.AddRental(r3.MovieTitle, sutCustomer.SSN));
+                sut.AddRental(r3.MovieTitle, testCustomer.SSN));
         }
         [Test]
         public void CustomersMayNotPossessTwoCopiesOfTheSameMovie()
         {
             Video v1 = new Video() { Title = "die hard" };
-            Customer c1 = new Customer() { Name = "ivan", SSN = "123", Rentals = new List<Rental>() };
+            Customer c1 = new Customer() { Name = "ivan", SSN = "123", Rentals = new List<Rentals>() };
 
 
-            rentalStub.AddRental(v1.Title, c1.SSN);
+            sut.AddRental(v1.Title, c1.SSN);
 
             Assert.Throws<CantPossessTwoCopiesOfSameVideoException>(()
-                => rentalStub.AddRental(v1.Title, c1.SSN));
+                => sut.AddRental(v1.Title, c1.SSN));
 
             Assert.AreEqual(1, c1.Rentals.Count);
         }

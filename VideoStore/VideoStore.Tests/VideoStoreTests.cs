@@ -12,72 +12,74 @@ namespace VideoStore.Tests
     [TestFixture]
     public class VideoStoreTests
     {
-        private IVideoStore videoStoreMock { get; set; }
-        private Video sutVideo { get; set; }
-        private Customer sutCustomer { get; set; }
+        private Gui.VideoStore sut { get; set; }
+        private Video testVideo { get; set; }
+        private Customer testCustomer { get; set; }
+        private IRentals rentalsMock { get; set; }
 
 
         [SetUp]
         public void Setup()
         {
-            videoStoreMock = Substitute.For<IVideoStore>();
-            sutVideo = new Video();
-            sutCustomer = new Customer() { Name = "Tess", SSN = "123", Rentals = new List<Rental>() };
+            rentalsMock = Substitute.For<IRentals>();
+            sut = new Gui.VideoStore(rentalsMock);
+            testVideo = new Video();
+            testCustomer = new Customer() { Name = "Tess", SSN = "123", Rentals = new List<Rentals>() };
         }
         [Test]
         public void MovieTitleCanNotBeEmpty()
         {
-            sutVideo.Title = "";
+            testVideo.Title = "";
 
             Assert.Throws<MovieTitleCannotBeEmptyException>(() =>
-                videoStoreMock.AddMovie(sutVideo));
+                sut.AddMovie(testVideo));
         }
         [Test]
         public void AddingFourthCopyOfSameMovieNotPossible()
         {
-            videoStoreMock.AddMovie(sutVideo);
-            videoStoreMock.AddMovie(sutVideo);
-            videoStoreMock.AddMovie(sutVideo);
+            sut.AddMovie(testVideo);
+            sut.AddMovie(testVideo);
+            sut.AddMovie(testVideo);
 
             Assert.Throws<MaximumThreeMoviesException>(() =>
-                videoStoreMock.AddMovie(sutVideo));
+                sut.AddMovie(testVideo));
         }
         [Test]
         public void ShouldNotBeAbleToAddSameCustomerTwice()
         {
-            sutCustomer.Name = "therese";
-            sutCustomer.SSN = "123";
+            testCustomer.Name = "therese";
+            testCustomer.SSN = "123";
 
-            videoStoreMock.RegisterCustomer(sutCustomer.Name, sutCustomer.SSN);
+            sut.RegisterCustomer(testCustomer.Name, testCustomer.SSN);
 
             Assert.Throws<CantAddCustomerTwiceException>(()
-                => videoStoreMock.RegisterCustomer(sutCustomer.Name, sutCustomer.SSN));
+                => sut.RegisterCustomer(testCustomer.Name, testCustomer.SSN));
         }
         [Test]
         public void AddingACustomerMustFollowSSNFormat()
         {
-            sutCustomer.Name = "Ivan";
-            sutCustomer.SSN = "1234-2-2";
+            testCustomer.Name = "Ivan";
+            testCustomer.SSN = "1234-2-2";
 
-            Assert.Throws<SSNFormatException>(() => videoStoreMock.RegisterCustomer(sutCustomer.Name, sutCustomer.SSN));
+            Assert.Throws<SSNFormatException>(() => sut.RegisterCustomer(testCustomer.Name, testCustomer.SSN));
         }
 
         [Test]
         public void NotBeAbleToRentNonExistentMovie()
         {
-            sutVideo.Title = "Die Hard";
+            testVideo.Title = "Die Hard";
             Assert.Throws<MovieDoesntExistException>(()
-                => videoStoreMock.RentMovie("non existent movie title","123"));
+                => sut.RentMovie("non existent movie title","123"));
 
         }
         [Test]
         public void UnregisteredCustomerCannotRentMovie()
         {
-            sutVideo.Title = "Dirty dancing";
-            sutCustomer.SSN = "843";
+            testVideo.Title = "Dirty dancing";
+            testCustomer.SSN = "843";
 
             var e = Assert.Throws<CustomerNotRegisteredException>(()
-                => videoStoreMock.RentMovie(sutVideo.Title, sutCustomer.SSN));
+                => sut.RentMovie(testVideo.Title, testCustomer.SSN));
 
             StringAssert.Contains("The customer is not registered", e.Message);
         }
