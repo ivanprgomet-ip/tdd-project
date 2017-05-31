@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace VideoStore.Tests
+namespace VideoStore.Gui
 {
     public class Rental
     {

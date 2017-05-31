@@ -47,13 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Customer.cs" />
-    <Compile Include="Interfaces.cs" />
-    <Compile Include="Video.cs" />
-    <Compile Include="Exceptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rental.cs" />
-    <Compile Include="VideoStore.cs" />
     <Compile Include="VideoStoreTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VideoStore.Gui\VideoStore.Gui.csproj">
+      <Project>{4b185d39-29eb-4c17-9a7d-5dab83c01377}</Project>
+      <Name>VideoStore.Gui</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

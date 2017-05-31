@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VideoStore.Tests
+namespace VideoStore.Gui
 {
     public class MovieTitleCannotBeEmptyException : Exception
     {

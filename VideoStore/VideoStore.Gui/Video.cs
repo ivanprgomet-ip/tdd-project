@@ -1,4 +1,4 @@
-﻿namespace VideoStore.Tests
+﻿namespace VideoStore.Gui
 {
     public class Video
     {
