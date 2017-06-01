@@ -42,4 +42,9 @@ namespace VideoStore.Gui
         
     }
 
+    public class MovieException : Exception
+    {
+        
+    }
+
 }

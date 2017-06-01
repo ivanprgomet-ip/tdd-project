@@ -10,6 +10,7 @@ using VideoStore.Gui;
 namespace VideoStore.Tests
 {
     [TestFixture]
+    [Category("TESTRentals")]
     public class MovieRentalsTests
     {
         //Behöver inte ha Video och Customer här.

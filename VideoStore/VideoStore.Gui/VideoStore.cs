@@ -23,14 +23,14 @@ namespace VideoStore.Gui
         public void AddMovie(Movie movie)
         {
             if (movie.Title == "")
-                throw new MovieTitleCannotBeEmptyException();
+                throw new MovieException();
             if (movies.Where(m => m.Title == movie.Title).Count() < 3)
             {
                 movies.Add(movie);
             }
             else
             {
-                throw new MaximumThreeMoviesException();
+                throw new MovieException();
             }
         }
 
@@ -52,18 +52,18 @@ namespace VideoStore.Gui
 
         public void RentMovie(string movieTitle, string socialSecurityNumber)
         {
+            if (!movies.Contains(new Movie(movieTitle)))
+            {
+                throw new MovieException();
+            }
             if (!customers.Contains(new Customer { SocialSecurityNumber = socialSecurityNumber }))
             {
                 throw new CustomerNotRegisteredException();
             }
-            if (movies.Contains(new Movie(movieTitle)))
-            {
-                throw new MaximumThreeMoviesException();
-            }
-            else
-            {
-                throw new MovieDoesntExistException();
-            }
+            //else
+            //{
+            //    throw new MovieException();
+            //}
             rentals.AddRental(movieTitle,socialSecurityNumber);
         }
 
@@ -74,7 +74,7 @@ namespace VideoStore.Gui
 
         public List<Customer> GetCustomers()
         {
-            throw new NotImplementedException();
+            return customers;
         }
 
         public bool ValidSSN(string ssn)
