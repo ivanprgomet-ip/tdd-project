@@ -24,7 +24,7 @@ namespace VideoStore.Tests
             rentalsMock = Substitute.For<IMovieRentals>();
             sut = new Gui.VideoStore(rentalsMock);
             testVideo = new Movie();
-            testCustomer = new Customer() { Name = "Tess", SSN = "123", Rentals = new List<MovieRentals>() };
+            testCustomer = new Customer() { Name = "Tess", SocialSecurityNumber = "123", Rentals = new List<MovieRentals>() };
         }
         [Test]
         public void CannotAddEmptyMovieTitle()
@@ -48,20 +48,20 @@ namespace VideoStore.Tests
         public void CannotAddSameCustomerTwice()
         {
             testCustomer.Name = "therese";
-            testCustomer.SSN = "123";
+            testCustomer.SocialSecurityNumber = "123";
 
-            sut.RegisterCustomer(testCustomer.Name, testCustomer.SSN);
+            sut.RegisterCustomer(testCustomer.Name, testCustomer.SocialSecurityNumber);
 
             Assert.Throws<CantAddCustomerTwiceException>(()
-                => sut.RegisterCustomer(testCustomer.Name, testCustomer.SSN));
+                => sut.RegisterCustomer(testCustomer.Name, testCustomer.SocialSecurityNumber));
         }
         [Test]
         public void MustFollowSSNFormatWhenRegisteringNewCustomer()
         {
             testCustomer.Name = "Ivan";
-            testCustomer.SSN = "1234-2-2";
+            testCustomer.SocialSecurityNumber = "1234-2-2";
 
-            Assert.Throws<SSNFormatException>(() => sut.RegisterCustomer(testCustomer.Name, testCustomer.SSN));
+            Assert.Throws<SSNFormatException>(() => sut.RegisterCustomer(testCustomer.Name, testCustomer.SocialSecurityNumber));
         }
 
         [Test]
@@ -76,10 +76,10 @@ namespace VideoStore.Tests
         public void CannotRentMovieAsAnUnregisteredCustomer()
         {
             testVideo.Title = "Dirty dancing";
-            testCustomer.SSN = "843";
+            testCustomer.SocialSecurityNumber = "843";
 
             var e = Assert.Throws<CustomerNotRegisteredException>(()
-                => sut.RentMovie(testVideo.Title, testCustomer.SSN));
+                => sut.RentMovie(testVideo.Title, testCustomer.SocialSecurityNumber));
 
             StringAssert.Contains("The customer is not registered", e.Message);
         }

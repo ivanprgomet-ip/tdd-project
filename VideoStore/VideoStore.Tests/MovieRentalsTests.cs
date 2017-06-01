@@ -21,7 +21,7 @@ namespace VideoStore.Tests
         public void Setup()
         {
             sut = new MovieRentals();
-            testCustomer = new Customer() { Name = "Tess", SSN = "123", Rentals = new List<MovieRentals>() };
+            testCustomer = new Customer() { Name = "Tess", SocialSecurityNumber = "123", Rentals = new List<MovieRentals>() };
         }
         [Test]
         public void CanAddRental()
@@ -29,11 +29,11 @@ namespace VideoStore.Tests
             Movie m = new Movie();
             m.Title = "Star wars";
             testCustomer.Name = "Tess";
-            testCustomer.SSN = "123";
+            testCustomer.SocialSecurityNumber = "123";
 
-            sut.AddRental(testVideo.Title, testCustomer.SSN);
+            sut.AddRental(testVideo.Title, testCustomer.SocialSecurityNumber);
 
-            List<MovieRentals> rents = sut.GetRentalsFor(testCustomer.SSN);
+            List<MovieRentals> rents = sut.GetRentalsFor(testCustomer.SocialSecurityNumber);
 
             Assert.AreEqual(1, rents.Count);
         }
@@ -43,9 +43,9 @@ namespace VideoStore.Tests
             MovieRentals r = new MovieRentals();
             r.MovieTitle = "Die HArd";
             r.ReturnDate = DateTime.Now.AddDays(3);
-            testCustomer.SSN = "123";
+            testCustomer.SocialSecurityNumber = "123";
 
-            sut.AddRental(r.MovieTitle, testCustomer.SSN);
+            sut.AddRental(r.MovieTitle, testCustomer.SocialSecurityNumber);
 
             Assert.AreEqual(DateTime.Now.AddDays(3).Date, r.ReturnDate.Date);
 
@@ -56,7 +56,7 @@ namespace VideoStore.Tests
         {
             Customer c = new Customer();
             c.Name = "Ivan";
-            c.SSN = "123";
+            c.SocialSecurityNumber = "123";
             c.Rentals.Add(new MovieRentals() { MovieTitle = "Die hard", ReturnDate = DateTime.Now.AddDays(3) });
             c.Rentals.Add(new MovieRentals() { MovieTitle = "Titanic", ReturnDate = DateTime.Now.AddDays(3) });
 
@@ -74,9 +74,9 @@ namespace VideoStore.Tests
         {
             Movie v1 = new Movie() { Title = "dirty dancing" };
             Movie v2 = new Movie() { Title = "titanic" };
-            Customer c1 = new Customer() { Name = "ivan", SSN = "123", Rentals = new List<MovieRentals>() };
+            Customer c1 = new Customer() { Name = "ivan", SocialSecurityNumber = "123", Rentals = new List<MovieRentals>() };
 
-            sut.AddRental(v1.Title, c1.SSN);
+            sut.AddRental(v1.Title, c1.SocialSecurityNumber);
 
             Assert.AreEqual(2, c1.Rentals.Count);
         }
@@ -95,25 +95,25 @@ namespace VideoStore.Tests
             MovieRentals r3 = new MovieRentals();
             r.MovieTitle = "Star Wars";
             r.ReturnDate = DateTime.Now.AddDays(3);
-            testCustomer.SSN = "123";
-            sut.AddRental(r.MovieTitle, testCustomer.SSN);
-            sut.AddRental(r1.MovieTitle, testCustomer.SSN);
-            sut.AddRental(r2.MovieTitle, testCustomer.SSN);
+            testCustomer.SocialSecurityNumber = "123";
+            sut.AddRental(r.MovieTitle, testCustomer.SocialSecurityNumber);
+            sut.AddRental(r1.MovieTitle, testCustomer.SocialSecurityNumber);
+            sut.AddRental(r2.MovieTitle, testCustomer.SocialSecurityNumber);
 
             Assert.Throws<MaximumThreeMoviesToRentalException>(() =>
-                sut.AddRental(r3.MovieTitle, testCustomer.SSN));
+                sut.AddRental(r3.MovieTitle, testCustomer.SocialSecurityNumber));
         }
         [Test]
         public void CannotHaveTwoCopiesOfTheSameMovie()
         {
             Movie v1 = new Movie() { Title = "die hard" };
-            Customer c1 = new Customer() { Name = "ivan", SSN = "123", Rentals = new List<MovieRentals>() };
+            Customer c1 = new Customer() { Name = "ivan", SocialSecurityNumber = "123", Rentals = new List<MovieRentals>() };
 
 
-            sut.AddRental(v1.Title, c1.SSN);
+            sut.AddRental(v1.Title, c1.SocialSecurityNumber);
 
             Assert.Throws<CantPossessTwoCopiesOfSameVideoException>(()
-                => sut.AddRental(v1.Title, c1.SSN));
+                => sut.AddRental(v1.Title, c1.SocialSecurityNumber));
 
             Assert.AreEqual(1, c1.Rentals.Count);
         }
