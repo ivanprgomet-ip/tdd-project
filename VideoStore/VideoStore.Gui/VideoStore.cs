@@ -8,9 +8,9 @@ namespace VideoStore.Gui
 {
     public class VideoStore
     {
-        private IRentals rentals;
+        private IMovieRentals rentals;
 
-        public VideoStore(IRentals rentals)
+        public VideoStore(IMovieRentals rentals)
         {
             this.rentals = rentals;
         }
