@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VideoStore.Gui
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -19,25 +19,22 @@ namespace VideoStore.Gui
                 switch (choice)
                 {
                     case "1":
-                        // rent a movie
+                        gui.RentMovie();
                         break;
                     case "2":
-                        // return a movie
+                        gui.ReturnMovie();
                         break;
                     case "3":
-                        // get all movies
+                        gui.GetAllCustomers();
                         break;
                     case "4":
-                        // get all customers
+                        gui.RegisterNewCustomer();
                         break;
                     case "5":
-                        // register new customer
-                        break;
-                    case "6":
-                        // add new movie
+                        gui.AddMovie();
                         break;
                     case "e":
-                        // exit application
+                        Environment.Exit(0);
                         break;
                     default:
                         break;
@@ -51,6 +48,7 @@ namespace VideoStore.Gui
 
     public class Gui
     {
+        VideoStore video = new VideoStore();
         public string Menu()
         {
             Console.WriteLine("2017 \u00a9 Videostore\nIvan Prgomet & Therese Sjögren");
@@ -58,10 +56,9 @@ namespace VideoStore.Gui
             Console.WriteLine();
             Console.WriteLine("[1] Rent a Movie");
             Console.WriteLine("[2] Return a Movie");
-            Console.WriteLine("[3] Get all Movies");
-            Console.WriteLine("[4] Get all Customers");
-            Console.WriteLine("[5] Register new Customer");
-            Console.WriteLine("[6] Add new Movie");
+            Console.WriteLine("[3] Get all Customers");
+            Console.WriteLine("[4] Register new Customer");
+            Console.WriteLine("[5] Add new Movie");
             Console.WriteLine("[e] Exit");
 
             Console.Write("Enter a command >> ");
@@ -70,5 +67,108 @@ namespace VideoStore.Gui
 
             return command;
         }
+
+        public void ReturnMovie()
+        {
+            Console.WriteLine("Return a movie");
+            Console.WriteLine("------------");
+            Console.Write("Customer SSN: ");
+
+            string customer = Console.ReadLine();
+
+            Console.Write("Movie title: ");
+
+            string movie = Console.ReadLine();
+
+            try
+            {
+                video.ReturnMovie(movie, customer);
+                Console.WriteLine($"{customer} returned {movie}.");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine();
+                Console.WriteLine(e.Message);
+            }
+        }
+        public void RentMovie()
+        {
+            Console.WriteLine("Rent a movie");
+            Console.WriteLine("------------");
+            Console.Write("Customer SSN: ");
+
+            string customer = Console.ReadLine();
+
+            Console.Write("Movie title: ");
+
+            string movie = Console.ReadLine();
+
+            try
+            {
+                video.RentMovie(movie, customer);
+                Console.WriteLine($"{movie} added to {customer} rentals.");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine();
+                Console.WriteLine(e.Message);
+            }
+        }
+        public void RegisterNewCustomer()
+        {
+            Console.WriteLine("Register Customer");
+            Console.WriteLine("-----------------");
+            Console.Write("Enter the name: ");
+
+            string name = Console.ReadLine();
+
+            Console.Write("Enter the Social Security Number: ");
+
+            string ssn = Console.ReadLine();
+
+            try
+            {
+                video.RegisterCustomer(name,ssn);
+                Console.WriteLine($"{name} with SSN: {ssn} registered.");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine();
+                Console.WriteLine(e.Message);
+            }
+        }
+        public void AddMovie()
+        {
+            Console.WriteLine("Add movie");
+            Console.WriteLine("----------");
+            Console.Write("Title: ");
+
+            string title = Console.ReadLine();
+
+            try
+            {
+                video.AddMovie(new Movie(title));
+                Console.WriteLine($"Movie with {title} added.");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine();
+                Console.WriteLine(e.Message);
+            }
+        }
+        public void GetAllCustomers()
+        {
+            var allcustomers = video.GetCustomers();
+            if (allcustomers == null)
+            {
+                Console.WriteLine("Sorry, there is no registered customer");
+            }
+            foreach (var c in allcustomers)
+            {
+                Console.WriteLine($"Name: {c.Name} SSN: {c.SocialSecurityNumber}");
+            }
+
+        }
     }
+     
 }

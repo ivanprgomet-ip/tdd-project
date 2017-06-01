@@ -12,8 +12,11 @@ namespace VideoStore.Gui
         private IMovieRentals rentals;
         public List<Movie> movies { get; set; }
         public List<Customer> customers { get; set; }
-        
 
+        public VideoStore()
+        {
+            
+        }
         public VideoStore(IMovieRentals rentals)
         {
             this.rentals = rentals;
