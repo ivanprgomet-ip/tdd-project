@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace VideoStore.Gui
 {
-    public class Rentals
+    public class MovieRentals
     {
-        private List<Rentals> rentals = new List<Rentals>();
+        private List<MovieRentals> rentals = new List<MovieRentals>();
 
         public void AddRental(string title, string ssn)
         {
@@ -15,7 +15,7 @@ namespace VideoStore.Gui
         public DateTime ReturnDate { get; set; }
         public string MovieTitle { get; set; }
 
-        public List<Rentals> GetRentalsFor(string ssn)
+        public List<MovieRentals> GetRentalsFor(string ssn)
         {
             throw new NotImplementedException();
         }

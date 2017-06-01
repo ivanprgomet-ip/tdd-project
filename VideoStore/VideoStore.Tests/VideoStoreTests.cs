@@ -24,7 +24,7 @@ namespace VideoStore.Tests
             rentalsMock = Substitute.For<IRentals>();
             sut = new Gui.VideoStore(rentalsMock);
             testVideo = new Movie();
-            testCustomer = new Customer() { Name = "Tess", SSN = "123", Rentals = new List<Rentals>() };
+            testCustomer = new Customer() { Name = "Tess", SSN = "123", Rentals = new List<MovieRentals>() };
         }
         [Test]
         public void MovieTitleCanNotBeEmpty()

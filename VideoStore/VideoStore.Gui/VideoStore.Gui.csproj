@@ -48,7 +48,7 @@
     <Compile Include="Interfaces.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rentals.cs" />
+    <Compile Include="MovieRentals.cs" />
     <Compile Include="Movie.cs" />
     <Compile Include="VideoStore.cs" />
   </ItemGroup>
