@@ -13,7 +13,7 @@ namespace VideoStore.Tests
     public class VideoStoreTests
     {
         private Gui.VideoStore sut { get; set; }
-        private Movie testVideo { get; set; }
+        private Movie testMovie { get; set; }
         private Customer testCustomer { get; set; }
         private MovieRentals rentalsMock { get; set; }
 
@@ -23,26 +23,26 @@ namespace VideoStore.Tests
         {
             rentalsMock = new MovieRentals();
             sut = new Gui.VideoStore(rentalsMock);
-            testVideo = new Movie();
+            testMovie = new Movie();
             testCustomer = new Customer() { Name = "Tess", SocialSecurityNumber = "123", Rentals = new List<MovieRental>() };
         }
         [Test]
         public void CannotAddEmptyMovieTitle()
         {
-            testVideo.Title = "";
+            testMovie.Title = "";
 
             Assert.Throws<MovieTitleCannotBeEmptyException>(() =>
-                sut.AddMovie(testVideo));
+                sut.AddMovie(testMovie));
         }
         [Test]
         public void CannotAddFourthCopyOfSameMovie()
         {
-            sut.AddMovie(testVideo);
-            sut.AddMovie(testVideo);
-            sut.AddMovie(testVideo);
+            sut.AddMovie(testMovie);
+            sut.AddMovie(testMovie);
+            sut.AddMovie(testMovie);
 
             Assert.Throws<MaximumThreeMoviesException>(() =>
-                sut.AddMovie(testVideo));
+                sut.AddMovie(testMovie));
         }
         [Test]
         public void CannotAddSameCustomerTwice()
@@ -67,7 +67,7 @@ namespace VideoStore.Tests
         [Test]
         public void CannotRentNonExistentMovie()
         {
-            testVideo.Title = "Die Hard";
+            testMovie.Title = "Die Hard";
             Assert.Throws<MovieDoesntExistException>(()
                 => sut.RentMovie("non existent movie title","123"));
 
@@ -75,11 +75,11 @@ namespace VideoStore.Tests
         [Test]
         public void CannotRentMovieAsAnUnregisteredCustomer()
         {
-            testVideo.Title = "Dirty dancing";
+            testMovie.Title = "Dirty dancing";
             testCustomer.SocialSecurityNumber = "843";
 
             var e = Assert.Throws<CustomerNotRegisteredException>(()
-                => sut.RentMovie(testVideo.Title, testCustomer.SocialSecurityNumber));
+                => sut.RentMovie(testMovie.Title, testCustomer.SocialSecurityNumber));
 
             StringAssert.Contains("The customer is not registered", e.Message);
         }

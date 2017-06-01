@@ -9,6 +9,7 @@ namespace VideoStore.Gui
     public class VideoStore
     {
         private IMovieRentals rentals;
+        public List<Movie> Movies { get; set; }
 
         public VideoStore(IMovieRentals rentals)
         {
@@ -16,7 +17,10 @@ namespace VideoStore.Gui
         }
         public void AddMovie(Movie sutMovie)
         {
-            throw new NotImplementedException();
+            if (sutMovie.Title == "")
+                throw new MovieTitleCannotBeEmptyException();
+            else
+                Movies.Add(sutMovie);
         }
 
         public void RegisterCustomer(string name, string ssn)

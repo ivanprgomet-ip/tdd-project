@@ -4,10 +4,10 @@ namespace VideoStore.Gui
 {
     public class MovieTitleCannotBeEmptyException : Exception
     {
-        public MovieTitleCannotBeEmptyException(string msg) : base(msg)
-        {
+        //public MovieTitleCannotBeEmptyException(string msg) : base(msg)
+        //{
 
-        }
+        //}
     }
     public class MaximumThreeMoviesException : Exception
     {
