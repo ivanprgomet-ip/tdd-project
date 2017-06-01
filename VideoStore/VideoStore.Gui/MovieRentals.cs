@@ -13,6 +13,8 @@ namespace VideoStore.Gui
 
             if (rentals.Where(r => r.socialSecurityNumber == ssn).ToList().Count == 3)
                 throw new MaximumThreeMoviesToRentalException();
+            if (rentals.Contains(rentals.Where(r => r.movieTitle == title).FirstOrDefault()))
+                throw new CantPossessTwoCopiesOfSameVideoException();
             else
             {
                 MovieRental rental = new MovieRental(title, ssn, DateTime.Now.AddDays(3));

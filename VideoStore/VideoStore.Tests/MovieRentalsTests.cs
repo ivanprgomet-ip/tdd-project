@@ -21,7 +21,7 @@ namespace VideoStore.Tests
         public void Setup()
         {
             sut = new MovieRentals();
-            testCustomer = new Customer() { Name = "Tess", SocialSecurityNumber = "123", Rentals = new List<MovieRentals>() };
+            testCustomer = new Customer() { Name = "Tess", SocialSecurityNumber = "123", Rentals = new List<MovieRental>() };
         }
         [Test]
         public void CanAddRental()
@@ -112,18 +112,17 @@ namespace VideoStore.Tests
                 sut.AddRental(testMovie4.Title, testCustomer.SocialSecurityNumber));
         }
         [Test]
-        public void CannotHaveTwoCopiesOfTheSameMovie()
+        public void CannotRentTwoCopiesOfTheSameMovie()
         {
-            Movie v1 = new Movie() { Title = "die hard" };
-            Customer c1 = new Customer() { Name = "ivan", SocialSecurityNumber = "123", Rentals = new List<MovieRentals>() };
+            Movie testMovie1 = new Movie()
+            {
+                Title = "dirty dancing",
+            };
 
-
-            sut.AddRental(v1.Title, c1.SocialSecurityNumber);
+            sut.AddRental(testMovie1.Title, testCustomer.SocialSecurityNumber);
 
             Assert.Throws<CantPossessTwoCopiesOfSameVideoException>(()
-                => sut.AddRental(v1.Title, c1.SocialSecurityNumber));
-
-            Assert.AreEqual(1, c1.Rentals.Count);
+                => sut.AddRental(testMovie1.Title, testCustomer.SocialSecurityNumber));
         }
         [Test]
         public void CannotRentMovieIfCustomerHasAMovieWithExpiredDueDate()
