@@ -27,7 +27,7 @@ namespace VideoStore.Tests
             testCustomer = new Customer() { Name = "Tess", SSN = "123", Rentals = new List<MovieRentals>() };
         }
         [Test]
-        public void MovieTitleCanNotBeEmpty()
+        public void CannotAddEmptyMovieTitle()
         {
             testVideo.Title = "";
 
@@ -35,7 +35,7 @@ namespace VideoStore.Tests
                 sut.AddMovie(testVideo));
         }
         [Test]
-        public void AddingFourthCopyOfSameMovieNotPossible()
+        public void CannotAddFourthCopyOfSameMovie()
         {
             sut.AddMovie(testVideo);
             sut.AddMovie(testVideo);
@@ -45,7 +45,7 @@ namespace VideoStore.Tests
                 sut.AddMovie(testVideo));
         }
         [Test]
-        public void ShouldNotBeAbleToAddSameCustomerTwice()
+        public void CannotAddSameCustomerTwice()
         {
             testCustomer.Name = "therese";
             testCustomer.SSN = "123";
@@ -56,7 +56,7 @@ namespace VideoStore.Tests
                 => sut.RegisterCustomer(testCustomer.Name, testCustomer.SSN));
         }
         [Test]
-        public void AddingACustomerMustFollowSSNFormat()
+        public void MustFollowSSNFormatWhenRegisteringNewCustomer()
         {
             testCustomer.Name = "Ivan";
             testCustomer.SSN = "1234-2-2";
@@ -65,7 +65,7 @@ namespace VideoStore.Tests
         }
 
         [Test]
-        public void NotBeAbleToRentNonExistentMovie()
+        public void CannotRentNonExistentMovie()
         {
             testVideo.Title = "Die Hard";
             Assert.Throws<MovieDoesntExistException>(()
@@ -73,7 +73,7 @@ namespace VideoStore.Tests
 
         }
         [Test]
-        public void UnregisteredCustomerCannotRentMovie()
+        public void CannotRentMovieAsAnUnregisteredCustomer()
         {
             testVideo.Title = "Dirty dancing";
             testCustomer.SSN = "843";
