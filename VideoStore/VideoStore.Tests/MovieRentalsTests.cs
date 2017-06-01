@@ -21,7 +21,7 @@ namespace VideoStore.Tests
         public void Setup()
         {
             sut = new MovieRentals();
-            testCustomer = new Customer() { Name = "Tess", SocialSecurityNumber = "123", Rentals = new List<MovieRental>() };
+            testCustomer = new Customer() { Name = "Tess", SocialSecurityNumber = "123"};
         }
         [Test]
         public void CanAddRental()

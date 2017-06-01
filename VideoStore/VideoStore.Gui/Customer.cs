@@ -6,6 +6,6 @@ namespace VideoStore.Gui
     {
         public string Name { get; set; }
         public string SocialSecurityNumber { get; set; }
-        public List<MovieRental> Rentals { get; set; }
+        
     }
 }

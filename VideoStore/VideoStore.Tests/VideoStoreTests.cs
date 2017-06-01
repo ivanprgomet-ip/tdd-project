@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using NSubstitute;
@@ -16,6 +17,7 @@ namespace VideoStore.Tests
         private Movie testMovie { get; set; }
         private Customer testCustomer { get; set; }
         private MovieRentals rentalsMock { get; set; }
+        
 
 
         [SetUp]
@@ -23,8 +25,8 @@ namespace VideoStore.Tests
         {
             rentalsMock = new MovieRentals();
             sut = new Gui.VideoStore(rentalsMock);
-            testMovie = new Movie();
-            testCustomer = new Customer() { Name = "Tess", SocialSecurityNumber = "123", Rentals = new List<MovieRental>() };
+            testMovie = new Movie{Title = "Die Hard"};
+            testCustomer = new Customer() { Name = "Tess", SocialSecurityNumber = "1991-02-23"};
         }
         [Test]
         public void CannotAddEmptyMovieTitle()
@@ -48,7 +50,7 @@ namespace VideoStore.Tests
         public void CannotAddSameCustomerTwice()
         {
             testCustomer.Name = "therese";
-            testCustomer.SocialSecurityNumber = "123";
+            testCustomer.SocialSecurityNumber = "1984-01-12";
 
             sut.RegisterCustomer(testCustomer.Name, testCustomer.SocialSecurityNumber);
 
@@ -66,22 +68,22 @@ namespace VideoStore.Tests
 
         [Test]
         public void CannotRentNonExistentMovie()
-        {
-            testMovie.Title = "Die Hard";
+        { 
+            sut.RegisterCustomer(testCustomer.Name,testCustomer.SocialSecurityNumber);
             Assert.Throws<MovieDoesntExistException>(()
-                => sut.RentMovie("non existent movie title","123"));
+                => sut.RentMovie(testMovie.Title,testCustomer.SocialSecurityNumber));
 
+            //rentalsMock.DidNotReceive().AddRental(Arg.Any<string>(), Arg.Any<string>());
         }
         [Test]
         public void CannotRentMovieAsAnUnregisteredCustomer()
         {
-            testMovie.Title = "Dirty dancing";
-            testCustomer.SocialSecurityNumber = "843";
+            sut.AddMovie(testMovie);
 
-            var e = Assert.Throws<CustomerNotRegisteredException>(()
+            Assert.Throws<CustomerNotRegisteredException>(()
                 => sut.RentMovie(testMovie.Title, testCustomer.SocialSecurityNumber));
 
-            StringAssert.Contains("The customer is not registered", e.Message);
+            //rentalsMock.DidNotReceive().AddRental(Arg.Any<string>(), Arg.Any<string>());
         }
     }
     
