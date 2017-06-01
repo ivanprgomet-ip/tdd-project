@@ -14,7 +14,7 @@ namespace VideoStore.Gui
         {
             this.rentals = rentals;
         }
-        public void AddMovie(Video sutMovie)
+        public void AddMovie(Movie sutMovie)
         {
             throw new NotImplementedException();
         }
@@ -24,7 +24,7 @@ namespace VideoStore.Gui
             throw new NotImplementedException();
         }
 
-        public void RentMovie(Video sutMovie)
+        public void RentMovie(Movie sutMovie)
         {
             throw new NotImplementedException();
         }
@@ -34,7 +34,7 @@ namespace VideoStore.Gui
             throw new NotImplementedException();
         }
 
-        public Video ReturnMovie(string sutMovieTitle, string sutCustomerSsn)
+        public Movie ReturnMovie(string sutMovieTitle, string sutCustomerSsn)
         {
             throw new NotImplementedException();
         }

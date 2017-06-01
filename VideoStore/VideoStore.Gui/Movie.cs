@@ -1,6 +1,6 @@
 ﻿namespace VideoStore.Gui
 {
-    public class Video
+    public class Movie
     {
         public string Title { get; set; }
     }

@@ -5,6 +5,8 @@ namespace VideoStore.Gui
 {
     public class Rentals
     {
+        private List<Rentals> rentals = new List<Rentals>();
+
         public void AddRental(string title, string ssn)
         {
             throw new NotImplementedException();

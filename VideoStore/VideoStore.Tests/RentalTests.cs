@@ -14,7 +14,7 @@ namespace VideoStore.Tests
     {
         //Behöver inte ha Video och Customer här.
         private Rentals sut { get; set; }
-        private Video testVideo { get; set; }
+        private Movie testVideo { get; set; }
         private Customer testCustomer { get; set; }
 
         [SetUp]
@@ -26,7 +26,7 @@ namespace VideoStore.Tests
         [Test]
         public void BeingAbleToAddRental()
         {
-            Video m = new Video();
+            Movie m = new Movie();
             m.Title = "Star wars";
             testCustomer.Name = "Tess";
             testCustomer.SSN = "123";
@@ -72,8 +72,8 @@ namespace VideoStore.Tests
         [Test]
         public void CanRentMoreThanOneMovie()
         {
-            Video v1 = new Video() { Title = "dirty dancing" };
-            Video v2 = new Video() { Title = "titanic" };
+            Movie v1 = new Movie() { Title = "dirty dancing" };
+            Movie v2 = new Movie() { Title = "titanic" };
             Customer c1 = new Customer() { Name = "ivan", SSN = "123", Rentals = new List<Rentals>() };
 
             sut.AddRental(v1.Title, c1.SSN);
@@ -106,7 +106,7 @@ namespace VideoStore.Tests
         [Test]
         public void CustomersMayNotPossessTwoCopiesOfTheSameMovie()
         {
-            Video v1 = new Video() { Title = "die hard" };
+            Movie v1 = new Movie() { Title = "die hard" };
             Customer c1 = new Customer() { Name = "ivan", SSN = "123", Rentals = new List<Rentals>() };
 
 

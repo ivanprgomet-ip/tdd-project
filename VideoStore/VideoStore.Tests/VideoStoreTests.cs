@@ -13,7 +13,7 @@ namespace VideoStore.Tests
     public class VideoStoreTests
     {
         private Gui.VideoStore sut { get; set; }
-        private Video testVideo { get; set; }
+        private Movie testVideo { get; set; }
         private Customer testCustomer { get; set; }
         private IRentals rentalsMock { get; set; }
 
@@ -23,7 +23,7 @@ namespace VideoStore.Tests
         {
             rentalsMock = Substitute.For<IRentals>();
             sut = new Gui.VideoStore(rentalsMock);
-            testVideo = new Video();
+            testVideo = new Movie();
             testCustomer = new Customer() { Name = "Tess", SSN = "123", Rentals = new List<Rentals>() };
         }
         [Test]
