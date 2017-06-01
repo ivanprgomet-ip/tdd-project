@@ -6,7 +6,15 @@ namespace VideoStore.Gui
 {
     public class MovieRentals:IMovieRentals
     {
-        private List<MovieRental> rentals = new List<MovieRental>();
+        private List<MovieRental> rentals;
+        private IDateTime returnTime;
+        public string MovieTitle { get; set; }
+
+        public MovieRentals(IDateTime dateTime)
+        {
+            this.returnTime = dateTime;
+            rentals=new List<MovieRental>();
+        }
 
         public void AddRental(string title, string ssn)
         {
@@ -22,12 +30,11 @@ namespace VideoStore.Gui
             }
         }
 
-        public DateTime ReturnDate { get; set; }
-        public string MovieTitle { get; set; }
+        
 
         public List<MovieRental> GetRentalsFor(string ssn)
         {
-            return rentals;
+            return rentals.Where(x => x.socialSecurityNumber == ssn).ToList();
         }
 
         public void RemoveRental(string movieTitle, string socialSecurityNumber)

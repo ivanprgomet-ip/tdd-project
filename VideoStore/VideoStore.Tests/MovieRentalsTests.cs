@@ -17,12 +17,14 @@ namespace VideoStore.Tests
         private MovieRentals sut { get; set; }
         private Movie testVideo { get; set; }
         private Customer testCustomer { get; set; }
+        private IDateTime dateTime;
 
         [SetUp]
         public void Setup()
         {
-            sut = new MovieRentals();
-            testCustomer = new Customer() { Name = "Tess", SocialSecurityNumber = "123"};
+            dateTime = Substitute.For<IDateTime>();
+            sut = new MovieRentals(dateTime);
+            testCustomer = new Customer{ Name = "Tess", SocialSecurityNumber = "123"};
         }
         [Test]
         public void CanAddRental()
@@ -39,14 +41,14 @@ namespace VideoStore.Tests
         [Test]
         public void MovieRentalGetsThreeDayLaterDueDate()
         {
-            MovieRentals r = new MovieRentals();
-            r.MovieTitle = "Die HArd";
-            r.ReturnDate = DateTime.Now.AddDays(3);
+            MovieRental r = new MovieRental();
+            r.movieTitle = "Die HArd";
+            r.dueDate = DateTime.Now.AddDays(3);
             testCustomer.SocialSecurityNumber = "123";
 
-            sut.AddRental(r.MovieTitle, testCustomer.SocialSecurityNumber);
+            sut.AddRental(r.movieTitle, testCustomer.SocialSecurityNumber);
 
-            Assert.AreEqual(DateTime.Now.AddDays(3).Date, r.ReturnDate.Date);
+            Assert.AreEqual(DateTime.Now.AddDays(3).Date, r.dueDate.Date);
 
 
         }

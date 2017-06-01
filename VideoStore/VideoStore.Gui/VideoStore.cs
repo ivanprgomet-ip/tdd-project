@@ -60,16 +60,17 @@ namespace VideoStore.Gui
             {
                 throw new CustomerNotRegisteredException();
             }
-            //else
-            //{
-            //    throw new MovieException();
-            //}
+            
             rentals.AddRental(movieTitle,socialSecurityNumber);
         }
 
         public void ReturnMovie(string movieTitle, string socialSecurityNumber)
         {
-            throw new NotImplementedException();
+            if (!rentals.GetRentalsFor(socialSecurityNumber).Any(x => x.movieTitle == movieTitle))
+            {
+                throw new MovieException();
+            }
+            rentals.RemoveRental(movieTitle,socialSecurityNumber);
         }
 
         public List<Customer> GetCustomers()

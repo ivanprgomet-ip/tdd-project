@@ -22,4 +22,9 @@ namespace VideoStore.Gui
         List<Customer> GetCustomers();
         void ReturnMovie(string movieTitle, string socialSecurityNumber);
     }
+
+    public interface IDateTime
+    {
+        DateTime Now();
+    }
 }
