@@ -10,7 +10,7 @@ namespace VideoStore.Gui
     {
         void AddRental(string movieTitle, string socialSecurityNumber);
         void RemoveRental(string movieTitle, string socialSecurityNumber);
-        List<MovieRentals> GetRentalsFor(string socialSecurityNumber);
+        List<MovieRental> GetRentalsFor(string socialSecurityNumber);
 
     }
 

@@ -15,13 +15,13 @@ namespace VideoStore.Tests
         private Gui.VideoStore sut { get; set; }
         private Movie testVideo { get; set; }
         private Customer testCustomer { get; set; }
-        private IMovieRentals rentalsMock { get; set; }
+        private MovieRentals rentalsMock { get; set; }
 
 
         [SetUp]
         public void Setup()
         {
-            rentalsMock = Substitute.For<IMovieRentals>();
+            rentalsMock = new MovieRentals();
             sut = new Gui.VideoStore(rentalsMock);
             testVideo = new Movie();
             testCustomer = new Customer() { Name = "Tess", SocialSecurityNumber = "123", Rentals = new List<MovieRental>() };

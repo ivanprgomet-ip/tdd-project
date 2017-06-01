@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace VideoStore.Gui
 {
-    public class MovieRentals
+    public class MovieRentals:IMovieRentals
     {
         private List<MovieRental> rentals = new List<MovieRental>();
 
@@ -28,6 +28,11 @@ namespace VideoStore.Gui
         public List<MovieRental> GetRentalsFor(string ssn)
         {
             return rentals;
+        }
+
+        public void RemoveRental(string movieTitle, string socialSecurityNumber)
+        {
+            throw new NotImplementedException();
         }
     }
 }
