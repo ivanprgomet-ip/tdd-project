@@ -67,13 +67,21 @@ namespace VideoStore.Tests
         [Test]
         public void CanRentMoreThanOneMovie()
         {
-            Movie v1 = new Movie() { Title = "dirty dancing" };
-            Movie v2 = new Movie() { Title = "titanic" };
-            Customer c1 = new Customer() { Name = "ivan", SocialSecurityNumber = "123", Rentals = new List<MovieRentals>() };
+            Movie testMovie1 = new Movie()
+            {
+                Title = "dirty dancing",
+            };
+            Movie testMovie2 = new Movie()
+            {
+                Title = "die hard",
+            };
 
-            sut.AddRental(v1.Title, c1.SocialSecurityNumber);
+            sut.AddRental(testMovie1.Title, testCustomer.SocialSecurityNumber);
+            sut.AddRental(testMovie2.Title, testCustomer.SocialSecurityNumber);
 
-            Assert.AreEqual(2, c1.Rentals.Count);
+            List<MovieRental> rentals = sut.GetRentalsFor(testCustomer.SocialSecurityNumber);
+
+            Assert.AreEqual(2, rentals.Count);
         }
         [Test]
         public void CannotRentMoreThanThreeMovies()
