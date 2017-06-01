@@ -9,23 +9,33 @@ namespace VideoStore.Gui
     public class VideoStore
     {
         private IMovieRentals rentals;
-        public List<Movie> Movies { get; set; }
+        public List<Movie> movies { get; set; }
+        public List<Customer> customers { get; set; }
 
         public VideoStore(IMovieRentals rentals)
         {
             this.rentals = rentals;
+            customers=new List<Customer>();
+            movies = new List<Movie>();
         }
         public void AddMovie(Movie sutMovie)
         {
             if (sutMovie.Title == "")
                 throw new MovieTitleCannotBeEmptyException();
             else
-                Movies.Add(sutMovie);
+                movies.Add(sutMovie);
         }
 
         public void RegisterCustomer(string name, string ssn)
         {
-            throw new NotImplementedException();
+            if (customers.Any(c => c.SocialSecurityNumber == ssn))
+            {
+                throw new CantAddCustomerTwiceException();
+            }
+            else
+            {
+            customers.Add(new Customer{Name = name,SocialSecurityNumber = ssn,Rentals = new List<MovieRental>()});
+            }
         }
 
         public void RentMovie(Movie sutMovie)
