@@ -26,14 +26,12 @@ namespace VideoStore.Tests
         [Test]
         public void CanAddRental()
         {
-            Movie m = new Movie();
-            m.Title = "Star wars";
-            testCustomer.Name = "Tess";
-            testCustomer.SocialSecurityNumber = "123";
+            Movie testMovie = new Movie();
+            testMovie.Title = "Star wars";
 
-            sut.AddRental(testVideo.Title, testCustomer.SocialSecurityNumber);
+            sut.AddRental(testMovie.Title, testCustomer.SocialSecurityNumber);
 
-            List<MovieRentals> rents = sut.GetRentalsFor(testCustomer.SocialSecurityNumber);
+            List<MovieRental> rents = sut.GetRentalsFor(testCustomer.SocialSecurityNumber);
 
             Assert.AreEqual(1, rents.Count);
         }
