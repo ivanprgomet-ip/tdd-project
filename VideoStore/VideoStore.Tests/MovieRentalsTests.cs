@@ -52,19 +52,16 @@ namespace VideoStore.Tests
         [Test]
         public void CanGetMovieRentalBySocialSecurityNumber()
         {
-            Customer c = new Customer();
-            c.Name = "Ivan";
-            c.SocialSecurityNumber = "123";
-            c.Rentals.Add(new MovieRentals() { MovieTitle = "Die hard", ReturnDate = DateTime.Now.AddDays(3) });
-            c.Rentals.Add(new MovieRentals() { MovieTitle = "Titanic", ReturnDate = DateTime.Now.AddDays(3) });
+            Movie testMovie = new Movie();
+            testMovie.Title = "die hard";
 
+            sut.AddRental(testMovie.Title, testCustomer.SocialSecurityNumber);
 
-            var result=sut.GetRentalsFor("123");
+            List<MovieRental> rentals = sut.GetRentalsFor(testCustomer.SocialSecurityNumber);
 
+            Assert.AreEqual(1, rentals.Count);
 
-            //List<Rental> listOfRentals = rentalStub.GetRentals("123");
-            //Assert.AreEqual(2, c.Rentals.Count);
-            //StringAssert.Contains("Die hard", c.Rentals[0].MovieTitle);
+            StringAssert.Contains("die hard", rentals[0].movieTitle);
         }
 
         [Test]
