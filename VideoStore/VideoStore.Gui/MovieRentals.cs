@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace VideoStore.Gui
 {
@@ -9,9 +10,14 @@ namespace VideoStore.Gui
 
         public void AddRental(string title, string ssn)
         {
-            MovieRental rental = new MovieRental(title, ssn, DateTime.Now.AddDays(3));
 
-            rentals.Add(rental);
+            if (rentals.Where(r => r.socialSecurityNumber == ssn).ToList().Count == 3)
+                throw new MaximumThreeMoviesToRentalException();
+            else
+            {
+                MovieRental rental = new MovieRental(title, ssn, DateTime.Now.AddDays(3));
+                rentals.Add(rental);
+            }
         }
 
         public DateTime ReturnDate { get; set; }

@@ -86,25 +86,30 @@ namespace VideoStore.Tests
         [Test]
         public void CannotRentMoreThanThreeMovies()
         {
-            MovieRentals r = new MovieRentals();
-            r.MovieTitle = "Die HArd";
-            r.ReturnDate = DateTime.Now.AddDays(3);
-            MovieRentals r1 = new MovieRentals();
-            r.MovieTitle = "Titanic";
-            r.ReturnDate = DateTime.Now.AddDays(3);
-            MovieRentals r2 = new MovieRentals();
-            r.MovieTitle = "Dirty Dancing";
-            r.ReturnDate = DateTime.Now.AddDays(3);
-            MovieRentals r3 = new MovieRentals();
-            r.MovieTitle = "Star Wars";
-            r.ReturnDate = DateTime.Now.AddDays(3);
-            testCustomer.SocialSecurityNumber = "123";
-            sut.AddRental(r.MovieTitle, testCustomer.SocialSecurityNumber);
-            sut.AddRental(r1.MovieTitle, testCustomer.SocialSecurityNumber);
-            sut.AddRental(r2.MovieTitle, testCustomer.SocialSecurityNumber);
+            Movie testMovie1 = new Movie()
+            {
+                Title = "dirty dancing",
+            };
+            Movie testMovie2 = new Movie()
+            {
+                Title = "die hard",
+            };
+            Movie testMovie3 = new Movie()
+            {
+                Title = "titanic",
+            };
+            Movie testMovie4 = new Movie()
+            {
+                Title = "fury",
+            };
+
+
+            sut.AddRental(testMovie1.Title, testCustomer.SocialSecurityNumber);
+            sut.AddRental(testMovie2.Title, testCustomer.SocialSecurityNumber);
+            sut.AddRental(testMovie3.Title, testCustomer.SocialSecurityNumber);
 
             Assert.Throws<MaximumThreeMoviesToRentalException>(() =>
-                sut.AddRental(r3.MovieTitle, testCustomer.SocialSecurityNumber));
+                sut.AddRental(testMovie4.Title, testCustomer.SocialSecurityNumber));
         }
         [Test]
         public void CannotHaveTwoCopiesOfTheSameMovie()
