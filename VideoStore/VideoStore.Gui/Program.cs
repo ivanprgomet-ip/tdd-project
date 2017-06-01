@@ -159,15 +159,11 @@ namespace VideoStore.Gui
         public void GetAllCustomers()
         {
             var allcustomers = video.GetCustomers();
-            if (allcustomers == null)
-            {
-                Console.WriteLine("Sorry, there is no registered customer");
-            }
-            foreach (var c in allcustomers)
-            {
-                Console.WriteLine($"Name: {c.Name} SSN: {c.SocialSecurityNumber}");
-            }
-
+            if (allcustomers != null)
+                foreach (var c in allcustomers)
+                {
+                    Console.WriteLine($"Name: {c.Name} SSN: {c.SocialSecurityNumber}");
+                }
         }
     }
      
