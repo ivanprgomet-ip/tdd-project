@@ -10,7 +10,7 @@ using VideoStore.Gui;
 namespace VideoStore.Tests
 {
     [TestFixture]
-    public class RentalTests
+    public class MovieRentalsTests
     {
         //Behöver inte ha Video och Customer här.
         private MovieRentals sut { get; set; }
@@ -38,7 +38,7 @@ namespace VideoStore.Tests
             Assert.AreEqual(1, rents.Count);
         }
         [Test]
-        public void AllRentalsGetA3DayLaterDueDate()
+        public void MovieRentalGetsThreeDayLaterDueDate()
         {
             MovieRentals r = new MovieRentals();
             r.MovieTitle = "Die HArd";
@@ -52,7 +52,7 @@ namespace VideoStore.Tests
 
         }
         [Test]
-        public void ShouldBeAbleToGetRentalsBySSN()
+        public void CanGetMovieRentalBySocialSecurityNumber()
         {
             Customer c = new Customer();
             c.Name = "Ivan";
@@ -81,7 +81,7 @@ namespace VideoStore.Tests
             Assert.AreEqual(2, c1.Rentals.Count);
         }
         [Test]
-        public void CannotRentMoreThan3Movies()
+        public void CannotRentMoreThanThreeMovies()
         {
             MovieRentals r = new MovieRentals();
             r.MovieTitle = "Die HArd";
@@ -104,7 +104,7 @@ namespace VideoStore.Tests
                 sut.AddRental(r3.MovieTitle, testCustomer.SSN));
         }
         [Test]
-        public void CustomersMayNotPossessTwoCopiesOfTheSameMovie()
+        public void CannotHaveTwoCopiesOfTheSameMovie()
         {
             Movie v1 = new Movie() { Title = "die hard" };
             Customer c1 = new Customer() { Name = "ivan", SSN = "123", Rentals = new List<MovieRentals>() };
@@ -118,12 +118,9 @@ namespace VideoStore.Tests
             Assert.AreEqual(1, c1.Rentals.Count);
         }
         [Test]
-        public void CustomersMayNotRentAnymoreMoviesIfTheyHaveLateDueDateMovies()
+        public void CannotRentMovieIfCustomerHasAMovieWithExpiredDueDate()
         {
 
-
         }
-
-        // more tests here
     }
 }
