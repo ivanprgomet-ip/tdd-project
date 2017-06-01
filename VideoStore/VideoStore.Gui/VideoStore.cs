@@ -52,13 +52,17 @@ namespace VideoStore.Gui
 
         public void RentMovie(string movieTitle, string socialSecurityNumber)
         {
-            if (!movies.Contains(new Movie(movieTitle)))
+            if (!customers.Contains(new Customer { SocialSecurityNumber = socialSecurityNumber }))
+            {
+                throw new CustomerNotRegisteredException();
+            }
+            if (movies.Contains(new Movie(movieTitle)))
             {
                 throw new MaximumThreeMoviesException();
             }
-            if (!customers.Contains(new Customer {SocialSecurityNumber = socialSecurityNumber}))
+            else
             {
-                throw new CustomerNotRegisteredException();
+                throw new MovieDoesntExistException();
             }
             rentals.AddRental(movieTitle,socialSecurityNumber);
         }

@@ -71,7 +71,7 @@ namespace VideoStore.Tests
         { 
             sut.RegisterCustomer(testCustomer.Name,testCustomer.SocialSecurityNumber);
             Assert.Throws<MovieDoesntExistException>(()
-                => sut.RentMovie(testMovie.Title,testCustomer.SocialSecurityNumber));
+                => sut.RentMovie("Titanic",testCustomer.SocialSecurityNumber));
 
             //rentalsMock.DidNotReceive().AddRental(Arg.Any<string>(), Arg.Any<string>());
         }
