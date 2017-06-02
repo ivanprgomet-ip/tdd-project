@@ -25,6 +25,7 @@ namespace VideoStore.Tests
             dateTime = Substitute.For<IDateTime>();
             sut = new MovieRentals(dateTime);
             testCustomer = new Customer{ Name = "Tess", SocialSecurityNumber = "123"};
+            testVideo=new Movie{Title = "Titanic"};
         }
         [Test]
         public void CanAddRental()
@@ -130,7 +131,16 @@ namespace VideoStore.Tests
         [Test]
         public void CannotRentMovieIfCustomerHasAMovieWithExpiredDueDate()
         {
+            var fakeDate = new DateTime(2017, 05, 12);
+
+            dateTime.Now().Returns(fakeDate);
+
+            sut.AddRental(testVideo.Title, testCustomer.SocialSecurityNumber);
+
+            dateTime.Now().Returns(fakeDate.AddDays(3));
+
             
+
         }
     }
 }

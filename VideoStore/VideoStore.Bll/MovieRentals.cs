@@ -25,7 +25,7 @@ namespace VideoStore.Bll
                 throw new CantPossessTwoCopiesOfSameVideoException();
             else
             {
-                MovieRental rental = new MovieRental(title, ssn, DateTime.Now.AddDays(3));
+                MovieRental rental = new MovieRental(title, ssn, returnTime.Now().AddDays(3));
                 rentals.Add(rental);
             }
         }
