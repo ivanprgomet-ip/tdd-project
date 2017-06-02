@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VideoStore.Gui;
+using VideoStore.Bll;
 
 namespace VideoStore.Tests
 {
@@ -130,7 +130,7 @@ namespace VideoStore.Tests
         [Test]
         public void CannotRentMovieIfCustomerHasAMovieWithExpiredDueDate()
         {
-
+            
         }
     }
 }

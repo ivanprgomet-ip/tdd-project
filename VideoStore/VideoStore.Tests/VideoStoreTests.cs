@@ -6,8 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using NSubstitute;
-using VideoStore.Gui;
-
+using VideoStore.Bll;
 
 namespace VideoStore.Tests
 {
@@ -15,7 +14,7 @@ namespace VideoStore.Tests
     [Category("TESTVideoStore")]
     public class VideoStoreTests
     {
-        private Gui.VideoStore sut { get; set; }
+        private Bll.VideoStore sut { get; set; }
         private Movie testMovie { get; set; }
         private Customer testCustomer { get; set; }
         private IMovieRentals rentalsMock { get; set; }
@@ -26,7 +25,7 @@ namespace VideoStore.Tests
         public void Setup()
         {
             rentalsMock = Substitute.For<IMovieRentals>();
-            sut = new Gui.VideoStore(rentalsMock);
+            sut = new Bll.VideoStore(rentalsMock);
             testMovie = new Movie{Title = "Die Hard"};
             testCustomer = new Customer() { Name = "Tess", SocialSecurityNumber = "1991-02-23"};
         }

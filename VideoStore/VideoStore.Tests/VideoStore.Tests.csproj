@@ -58,9 +58,9 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VideoStore.Gui\VideoStore.Gui.csproj">
-      <Project>{4b185d39-29eb-4c17-9a7d-5dab83c01377}</Project>
-      <Name>VideoStore.Gui</Name>
+    <ProjectReference Include="..\VideoStore.Bll\VideoStore.Bll.csproj">
+      <Project>{b4409513-adcc-49a4-a923-466f273cf490}</Project>
+      <Name>VideoStore.Bll</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

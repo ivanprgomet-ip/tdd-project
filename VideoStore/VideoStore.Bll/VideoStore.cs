@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace VideoStore.Gui
+namespace VideoStore.Bll
 {
     public class VideoStore: IVideoStore
     {

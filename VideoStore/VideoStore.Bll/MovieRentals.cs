@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace VideoStore.Gui
+namespace VideoStore.Bll
 {
     public class MovieRentals:IMovieRentals
     {

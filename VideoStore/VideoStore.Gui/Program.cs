@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VideoStore.Bll;
 
 namespace VideoStore.Gui
 {
@@ -48,7 +49,7 @@ namespace VideoStore.Gui
 
     public class Gui
     {
-        VideoStore video = new VideoStore();
+        Bll.VideoStore video = new Bll.VideoStore();
         public string Menu()
         {
             Console.WriteLine("2017 \u00a9 Videostore\nIvan Prgomet & Therese Sjögren");
