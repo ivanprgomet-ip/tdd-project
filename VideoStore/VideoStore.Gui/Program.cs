@@ -49,7 +49,16 @@ namespace VideoStore.Gui
 
     public class Gui
     {
-        Bll.VideoStore video = new Bll.VideoStore();
+        IDateTime datetime;
+        Bll.IVideoStore video;
+        Bll.IMovieRentals rentals;
+
+        public Gui()
+        {
+            video = new Bll.VideoStore();
+            rentals = new Bll.MovieRentals(datetime);
+        }
+
         public string Menu()
         {
             Console.WriteLine("2017 \u00a9 Videostore\nIvan Prgomet & Therese Sjögren");
@@ -91,6 +100,7 @@ namespace VideoStore.Gui
                 Console.WriteLine();
                 Console.WriteLine(e.Message);
             }
+            Console.ReadLine();
         }
         public void RentMovie()
         {
@@ -114,6 +124,7 @@ namespace VideoStore.Gui
                 Console.WriteLine();
                 Console.WriteLine(e.Message);
             }
+            Console.ReadLine();
         }
         public void RegisterNewCustomer()
         {
@@ -129,7 +140,7 @@ namespace VideoStore.Gui
 
             try
             {
-                video.RegisterCustomer(name,ssn);
+                video.RegisterCustomer(name, ssn);
                 Console.WriteLine($"{name} with SSN: {ssn} registered.");
             }
             catch (Exception e)
@@ -137,6 +148,7 @@ namespace VideoStore.Gui
                 Console.WriteLine();
                 Console.WriteLine(e.Message);
             }
+            Console.ReadLine();
         }
         public void AddMovie()
         {
@@ -156,6 +168,7 @@ namespace VideoStore.Gui
                 Console.WriteLine();
                 Console.WriteLine(e.Message);
             }
+            Console.ReadLine();
         }
         public void GetAllCustomers()
         {
@@ -167,5 +180,5 @@ namespace VideoStore.Gui
                 }
         }
     }
-     
+
 }

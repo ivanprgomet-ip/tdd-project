@@ -24,7 +24,10 @@ namespace VideoStore.Bll
     }
     public class SSNFormatException : Exception
     {
-
+        public SSNFormatException(string msg) : base(msg)
+        {
+            
+        }
     }
 
     public class MovieDoesntExistException : Exception

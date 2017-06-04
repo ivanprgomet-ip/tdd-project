@@ -41,7 +41,7 @@ namespace VideoStore.Bll
         {
             if (!ValidSSN(ssn))
             {
-                throw new SSNFormatException();
+                throw new SSNFormatException("ssn not in correct format");
             }
             if (customers.Any(c => c.SocialSecurityNumber == ssn))
             {
