@@ -47,4 +47,9 @@ namespace VideoStore.Bll
         
     }
 
+    public class MovieWithExpiredDateFoundException:Exception
+    {
+
+    }
+
 }

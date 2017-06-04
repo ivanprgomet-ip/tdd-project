@@ -18,6 +18,19 @@ namespace VideoStore.Bll
 
         public void AddRental(string title, string ssn)
         {
+            #region checks if there are any movies that have expired due date
+            List<MovieRental> expiredRentals = new List<MovieRental>();
+            foreach (var r in rentals)
+            {
+                if (r.socialSecurityNumber == ssn && 
+                    r.dueDate < returnTime.Now()) // the now() is actually the method in the IDateTime interface
+                {
+                    expiredRentals.Add(r);
+                }
+            }
+            if (expiredRentals.Count > 0)
+                throw new MovieWithExpiredDateFoundException();
+            #endregion
 
             if (rentals.Where(r => r.socialSecurityNumber == ssn).ToList().Count == 3)
                 throw new MaximumThreeMoviesToRentalException();

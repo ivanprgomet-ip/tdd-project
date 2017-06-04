@@ -131,16 +131,18 @@ namespace VideoStore.Tests
         [Test]
         public void CannotRentMovieIfCustomerHasAMovieWithExpiredDueDate()
         {
+            Movie testMovie = new Movie("die hard");
+
             var fakeDate = new DateTime(2017, 05, 12);
 
-            dateTime.Now().Returns(fakeDate);
+            dateTime.Now().Returns(fakeDate); // the datetime now will be the fakedate
 
             sut.AddRental(testVideo.Title, testCustomer.SocialSecurityNumber);
 
-            dateTime.Now().Returns(fakeDate.AddDays(3));
+            dateTime.Now().Returns(fakeDate.AddDays(10));
 
-            
-
+            Assert.Throws<MovieWithExpiredDateFoundException>(()
+                => sut.AddRental(testMovie.Title,testCustomer.SocialSecurityNumber));
         }
     }
 }
