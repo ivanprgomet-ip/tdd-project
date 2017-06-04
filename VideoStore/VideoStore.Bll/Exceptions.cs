@@ -53,7 +53,10 @@ namespace VideoStore.Bll
 
     public class MovieException : Exception
     {
-        
+        public MovieException(string msg) : base(msg)
+        {
+
+        }
     }
 
     public class MovieWithExpiredDateFoundException:Exception

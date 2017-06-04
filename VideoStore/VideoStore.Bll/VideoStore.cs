@@ -27,14 +27,14 @@ namespace VideoStore.Bll
         public void AddMovie(Movie movie)
         {
             if (movie.Title == "")
-                throw new MovieException();
+                throw new MovieException("movie title cannot be emtpy");
             if (movies.Where(m => m.Title == movie.Title).Count() < 3)
             {
                 movies.Add(movie);
             }
             else
             {
-                throw new MovieException();
+                throw new MovieException("could not add movie");
             }
         }
 
@@ -58,7 +58,7 @@ namespace VideoStore.Bll
         {
             if (!movies.Contains(new Movie(movieTitle)))
             {
-                throw new MovieException();
+                throw new MovieException("no movie with that tile found");
             }
             if (!customers.Contains(new Customer { SocialSecurityNumber = socialSecurityNumber }))
             {
@@ -72,7 +72,7 @@ namespace VideoStore.Bll
         {
             if (!rentals.GetRentalsFor(socialSecurityNumber).Any(x => x.movieTitle == movieTitle))
             {
-                throw new MovieException();
+                throw new MovieException("cant return non existent movie");
             }
             rentals.RemoveRental(movieTitle, socialSecurityNumber);
         }
