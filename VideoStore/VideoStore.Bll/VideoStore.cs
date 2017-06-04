@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace VideoStore.Bll
 {
-    public class VideoStore: IVideoStore
+    public class VideoStore : IVideoStore
     {
         private IMovieRentals rentals;
         public List<Movie> movies { get; set; }
@@ -15,12 +15,13 @@ namespace VideoStore.Bll
 
         public VideoStore()
         {
-            
+            customers = new List<Customer>();
+            movies = new List<Movie>();
         }
         public VideoStore(IMovieRentals rentals)
         {
             this.rentals = rentals;
-            customers=new List<Customer>();
+            customers = new List<Customer>();
             movies = new List<Movie>();
         }
         public void AddMovie(Movie movie)
@@ -45,11 +46,11 @@ namespace VideoStore.Bll
             }
             if (customers.Any(c => c.SocialSecurityNumber == ssn))
             {
-                throw new CantAddCustomerTwiceException();
+                throw new CantAddCustomerTwiceException("cant add same customer twice");
             }
             else
             {
-            customers.Add(new Customer{Name = name,SocialSecurityNumber = ssn});
+                customers.Add(new Customer { Name = name, SocialSecurityNumber = ssn });
             }
         }
 
@@ -61,10 +62,10 @@ namespace VideoStore.Bll
             }
             if (!customers.Contains(new Customer { SocialSecurityNumber = socialSecurityNumber }))
             {
-                throw new CustomerNotRegisteredException();
+                throw new CustomerNotRegisteredException("cant rent movie with unregistered customer");
             }
-            
-            rentals.AddRental(movieTitle,socialSecurityNumber);
+
+            rentals.AddRental(movieTitle, socialSecurityNumber);
         }
 
         public void ReturnMovie(string movieTitle, string socialSecurityNumber)
@@ -73,7 +74,7 @@ namespace VideoStore.Bll
             {
                 throw new MovieException();
             }
-            rentals.RemoveRental(movieTitle,socialSecurityNumber);
+            rentals.RemoveRental(movieTitle, socialSecurityNumber);
         }
 
         public List<Customer> GetCustomers()
@@ -83,7 +84,7 @@ namespace VideoStore.Bll
 
         public bool ValidSSN(string ssn)
         {
-            var ssnRegex=@"^\d{4}-\d{2}-\d{2}$";
+            var ssnRegex = @"^\d{4}-\d{2}-\d{2}$";
             if (Regex.IsMatch(ssn, ssnRegex))
             {
                 return true;

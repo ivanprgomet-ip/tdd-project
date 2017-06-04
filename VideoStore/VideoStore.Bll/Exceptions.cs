@@ -16,7 +16,10 @@ namespace VideoStore.Bll
 
     public class CantAddCustomerTwiceException : Exception
     {
+        public CantAddCustomerTwiceException(string msg) : base(msg)
+        {
 
+        }
     }
     public class CantPossessTwoCopiesOfSameVideoException : Exception
     {
@@ -37,7 +40,10 @@ namespace VideoStore.Bll
 
     public class CustomerNotRegisteredException : Exception
     {
-
+        public CustomerNotRegisteredException(string msg) : base(msg)
+        {
+            
+        }
     }
 
     public class MaximumThreeMoviesToRentalException : Exception
