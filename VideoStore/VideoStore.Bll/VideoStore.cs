@@ -58,11 +58,11 @@ namespace VideoStore.Bll
         {
             if (!movies.Contains(new Movie(movieTitle)))
             {
-                throw new MovieException("no movie with that tile found");
+                throw new MovieException("no movie with that title found");
             }
             if (!customers.Contains(new Customer { SocialSecurityNumber = socialSecurityNumber }))
             {
-                throw new CustomerNotRegisteredException("cant rent movie with unregistered customer");
+                throw new CustomerNotRegisteredException("can't rent movie with unregistered customer");
             }
 
             rentals.AddRental(movieTitle, socialSecurityNumber);
