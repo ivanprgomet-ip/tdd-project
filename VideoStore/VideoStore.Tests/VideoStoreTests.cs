@@ -29,6 +29,17 @@ namespace VideoStore.Tests
             testMovie = new Movie{Title = "Die Hard"};
             testCustomer = new Customer() { Name = "Tess", SocialSecurityNumber = "1991-02-23"};
         }
+
+        [Test]
+        public void CanRentMovie()
+        {
+            sut.RegisterCustomer(testCustomer.Name,testCustomer.SocialSecurityNumber);
+            sut.AddMovie(testMovie);
+            sut.RentMovie(testMovie.Title,testCustomer.SocialSecurityNumber);
+            
+            rentalsMock.Received().AddRental(Arg.Is("Die Hard"), Arg.Any<string>());
+
+        }
         [Test]
         public void CannotAddEmptyMovieTitle()
         {
@@ -77,7 +88,7 @@ namespace VideoStore.Tests
         {
             sut.AddMovie(testMovie);
             
-            Assert.Throws<MovieException>(()
+            Assert.Throws<CustomerNotRegisteredException>(()
                 => sut.RentMovie(testMovie.Title, testCustomer.SocialSecurityNumber));
 
             rentalsMock.DidNotReceive().AddRental(Arg.Any<string>(), Arg.Any<string>());

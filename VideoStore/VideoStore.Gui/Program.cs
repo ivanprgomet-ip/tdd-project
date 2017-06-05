@@ -55,7 +55,7 @@ namespace VideoStore.Gui
 
         public Gui()
         {
-            video = new Bll.VideoStore();
+            video = new Bll.VideoStore(new MovieRentals(new OurDateTime()));
             rentals = new Bll.MovieRentals(datetime);
         }
 
