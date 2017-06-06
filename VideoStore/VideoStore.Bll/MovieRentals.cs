@@ -52,7 +52,7 @@ namespace VideoStore.Bll
 
         public void RemoveRental(string movieTitle, string socialSecurityNumber)
         {
-            throw new NotImplementedException();
+            rentals.Remove(rentals.Where(r => r.movieTitle == movieTitle && r.socialSecurityNumber == socialSecurityNumber).FirstOrDefault());
         }
     }
 }
